@@ -1,12 +1,8 @@
-import React from 'react';
 import cornLogo from '../assets/corn.svg';
 import logoutIcon from '../assets/logout.svg';
+import type { User } from '../interfaces/user';
 
-const Banner = ({
-  setIsSignedIn,
-}: {
-  setIsSignedIn: (value: boolean) => void;
-}) => {
+const Banner = ({ signedInUser }: { signedInUser: User }) => {
   return (
     <header>
       <img
@@ -15,11 +11,14 @@ const Banner = ({
         height="64px"
         width="64px"
       />
-      <p className="displayUsername">current user</p>
+      <p className="displayUsername">Signed in as: {signedInUser.name}</p>
       <button
         title="log out"
         className="logoutButton"
-        onClick={() => setIsSignedIn(false)}
+        onClick={() => {
+          localStorage.clear();
+          window.location.reload();
+        }}
       >
         <img src={logoutIcon} alt="Log out button" height="24px" width="24px" />
       </button>
