@@ -20,3 +20,5 @@ export const MONGO_DB_NAME = assertVariableType(process.env.MONGO_DB_NAME);
 export const PORT = assertVariableType(process.env.PORT);
 
 export const NODE_ENV = assertVariableType(process.env.NODE_ENV);
+
+export const RPC_URL = assertVariableType(process.env.RPC_URL);
