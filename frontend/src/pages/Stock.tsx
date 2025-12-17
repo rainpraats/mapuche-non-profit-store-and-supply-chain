@@ -1,7 +1,42 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
+import { StockService } from '../services/stockService';
+import type { Item } from '../interfaces/Item';
+import { Link } from 'react-router';
 
 const Stock = () => {
-  return <div></div>;
+  const [stock, setStock] = useState<Item[]>([]);
+  const [status, setStatus] = useState('Loading Stock');
+
+  useEffect(() => {
+    const fetchStock = async () => {
+      try {
+        const stockData = await new StockService().listStock();
+        setStatus('');
+        setStock(stockData);
+      } catch (error) {
+        console.error(error);
+        setStatus('Could not load stock. Try again later.');
+      }
+    };
+
+    fetchStock();
+  }, []);
+
+  return (
+    <main>
+      <Link to="/">&#10094; go back</Link>
+      {status && <p>{status}</p>}
+      <ul>
+        {stock.map((item, index) => (
+          <li key={index}>
+            <p>
+              Item: {item.itemDescription} - Quantity: {item.quantity}
+            </p>
+          </li>
+        ))}
+      </ul>
+    </main>
+  );
 };
 
 export default Stock;
