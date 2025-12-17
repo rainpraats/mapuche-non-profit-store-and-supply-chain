@@ -7,6 +7,8 @@ import Orders from './pages/Orders';
 import Stock from './pages/Stock';
 import ManageUsers from './pages/ManageUsers';
 import PageNotFound from './pages/PageNotFound';
+import ValidateShipping from './pages/ValidateShipping';
+import ValidateDelivery from './pages/ValidateDelivery';
 
 export const router = createBrowserRouter([
   {
@@ -19,6 +21,8 @@ export const router = createBrowserRouter([
       { path: '/orders', element: <Orders /> },
       { path: '/stock', element: <Stock /> },
       { path: '/manage-users', element: <ManageUsers /> },
+      { path: 'validate-shipping', element: <ValidateShipping /> },
+      { path: 'validate-delivery', element: <ValidateDelivery /> },
     ],
   },
   { path: '/*', element: <PageNotFound /> },

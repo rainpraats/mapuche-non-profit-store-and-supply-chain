@@ -22,3 +22,11 @@ export const PORT = assertVariableType(process.env.PORT);
 export const NODE_ENV = assertVariableType(process.env.NODE_ENV);
 
 export const RPC_URL = assertVariableType(process.env.RPC_URL);
+
+export const ANVIL_PRIVATE_KEY = assertVariableType(
+  process.env.ANVIL_PRIVATE_KEY
+);
+
+export const CONTRACT_ADDRESS = assertVariableType(
+  process.env.CONTRACT_ADDRESS
+);

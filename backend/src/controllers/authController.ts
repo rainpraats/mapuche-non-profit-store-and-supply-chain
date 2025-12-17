@@ -7,6 +7,7 @@ import { userRoles } from '../models/userRoles';
 import { Response, NextFunction } from 'express';
 import { JWT_EXPIRES, JWT_SECRET } from '../envVariables.js';
 import { extractJWTFromHeader } from '../utilities/extractJWTfromHeader.js';
+import { contract } from '../smartContractClient.js';
 
 export const loginUser = catchErrorAsync(async (req, res, next) => {
   const { name, password } = req.body;
@@ -40,7 +41,7 @@ export const protect = catchErrorAsync(async (req: any, res, next) => {
   next();
 });
 
-export const authorize = (...roles: userRoles[]) => {
+export const authorizeRole = (...roles: userRoles[]) => {
   return (req: any, res: Response, next: NextFunction) => {
     if (!roles.includes(req.user.role)) {
       return next(
@@ -53,6 +54,48 @@ export const authorize = (...roles: userRoles[]) => {
     next();
   };
 };
+
+const getIdsOfSupplierAndDelivererFromOrder = async (orderId: string) => {
+  const order: any = await contract.getOrder(orderId);
+  return { supplierId: order[3], deliveryId: order[4] };
+};
+
+export const authorizeUserAcceptingOrder = catchErrorAsync(
+  async (req: any, res: Response, next: NextFunction) => {
+    const { orderId } = req.body;
+    const { supplierId } = await getIdsOfSupplierAndDelivererFromOrder(orderId);
+
+    if (req.user._id.toString() !== supplierId) {
+      return next(
+        new AppError(
+          'Forbidden. Insufficient permissions to access the given resource',
+          403
+        )
+      );
+    }
+    next();
+  }
+);
+
+export const authorizeUserRecievingShipment = catchErrorAsync(
+  async (req: any, res: Response, next: NextFunction) => {
+    const { orderId } = req.body;
+    const { deliveryId } = await getIdsOfSupplierAndDelivererFromOrder(orderId);
+
+    console.log(req.user._id.toString());
+    console.log(deliveryId);
+
+    if (req.user._id.toString() !== deliveryId) {
+      return next(
+        new AppError(
+          'Forbidden. Insufficient permissions to access the given resource',
+          403
+        )
+      );
+    }
+    next();
+  }
+);
 
 const createToken = (userId: string): string => {
   return jwt.sign({ id: userId }, JWT_SECRET, {

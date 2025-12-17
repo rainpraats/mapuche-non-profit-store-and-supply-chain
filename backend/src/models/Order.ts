@@ -1,11 +1,8 @@
+import { Item } from './Item';
+
 export interface Order {
-  id: string;
-  itemDescription: string;
-  quantity: number;
-  duedate: Date;
-  accepted: boolean;
-  shipped: boolean;
-  delivered: boolean;
+  items: Item[];
+  shippingDueDate: number;
   supplierId: string;
   deliveryId: string;
 }

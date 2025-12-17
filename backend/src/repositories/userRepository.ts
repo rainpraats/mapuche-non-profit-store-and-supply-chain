@@ -6,11 +6,11 @@ export default class UserRepository {
     return await userModel.create(user);
   }
 
-  async findById(id:string) {
+  async findById(id: string) {
     return await userModel.findById(id);
   }
 
-  async find(name: string, login: boolean) {
+  async find(name: string, login: boolean = false) {
     return login === true
       ? await userModel.findOne({ name: name }).select('+password')
       : await userModel.findOne({ name: name });

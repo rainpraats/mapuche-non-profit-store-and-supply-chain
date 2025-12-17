@@ -35,10 +35,13 @@ const Login = () => {
     }
   };
 
-  const createBob = async () => {
+  const createUser = async (
+    name: string,
+    role: 'admin' | 'supplier' | 'delivery'
+  ) => {
     try {
-      const bob = { name: 'bob', role: 'admin' as const, password: 'bob' };
-      await new AdminService().createUser(bob);
+      const user = { name: name, role: role, password: 'bob' };
+      await new AdminService().createUser(user);
     } catch (error) {
       console.log(error);
     }
@@ -76,7 +79,13 @@ const Login = () => {
           Login
         </button>
       </form>
-      <button onClick={() => createBob()}>create bob</button>
+      <button onClick={() => createUser('bob', 'admin')}>create bob</button>
+      <button onClick={() => createUser('Steve', 'supplier')}>
+        create suplier Steve
+      </button>
+      <button onClick={() => createUser('Greg', 'delivery')}>
+        create deliverer Greg
+      </button>
     </article>
   );
 };

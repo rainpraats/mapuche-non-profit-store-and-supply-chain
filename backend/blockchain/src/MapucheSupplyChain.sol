@@ -6,16 +6,17 @@ contract MapucheSupplyChain {
     uint128 private orderCounter;
 
     mapping(bytes32 => Order) private orders;
-    mapping(bytes12 => UserRole) private users;
+    mapping(string => UserRole) private users;
     mapping(bytes32 => Item) private items;
     bytes32[] private orderIds;
     bytes32[] private itemIds;
 
     struct Order {
+        bytes32 id;
         Item[] items;
         uint256 shippingDueDate;
-        bytes12 supplierId;
-        bytes12 deliveryId;
+        string supplierId;
+        string deliveryId;
         bool accepted;
         bool shipped;
         bool delivered;
@@ -50,6 +51,10 @@ contract MapucheSupplyChain {
     error OrderMustBeShippedBeforeThisAction();
     error ItemDoesNotExist();
     error InsufficientStock();
+    error OrderAlreadyAccepted();
+    error OrderAlreadyShipped();
+    error OrderAlreadyDelivered();
+    error OrderWasAlreadyDeleted();
 
     modifier onlyOwner() {
         if (msg.sender != owner) revert OnlyOwner();
@@ -60,15 +65,15 @@ contract MapucheSupplyChain {
         owner = msg.sender;
     }
 
-    function addUser(bytes12 id, UserRole role) external onlyOwner {
+    function addUser(string calldata id, UserRole role) external onlyOwner {
         users[id] = role;
     }
 
     function addOrder(
         Item[] calldata itemsToOrder,
         uint256 shippingDueDate,
-        bytes12 supplierId,
-        bytes12 deliveryId
+        string calldata supplierId,
+        string calldata deliveryId
     ) external onlyOwner {
         if (itemsToOrder.length == 0) revert OrderMustIncludeSomeItems();
 
@@ -84,6 +89,7 @@ contract MapucheSupplyChain {
         orderCounter++;
 
         Order storage newOrder = orders[orderId];
+        newOrder.id = orderId;
         newOrder.shippingDueDate = shippingDueDate;
         newOrder.supplierId = supplierId;
         newOrder.deliveryId = deliveryId;
@@ -109,14 +115,14 @@ contract MapucheSupplyChain {
         bytes32 orderId,
         Item[] calldata itemsToOrder,
         uint256 shippingDueDate,
-        bytes12 supplierId,
-        bytes12 deliveryId
+        string calldata supplierId,
+        string calldata deliveryId
     ) external onlyOwner {
         if (itemsToOrder.length == 0) revert OrderMustIncludeSomeItems();
 
         Order storage order = orders[orderId];
 
-        if (order.items.length == 0) revert NoOrderWithThatIdExists();
+        if (bytes(order.id).length === 0) revert NoOrderWithThatIdExists();
 
         if (shippingDueDate <= block.timestamp) revert ShippingDueDateInPast();
 
@@ -149,9 +155,11 @@ contract MapucheSupplyChain {
     function deleteOrder(bytes32 orderId) external onlyOwner {
         Order storage order = orders[orderId];
 
-        if (order.items.length == 0) revert NoOrderWithThatIdExists();
+        if (bytes(order.id).length === 0) revert NoOrderWithThatIdExists();
 
         if (order.accepted) revert CanNotChangeAcceptedOrders();
+
+        if (order.isActive == false) revert OrderWasAlreadyDeleted();
 
         order.isActive = false;
     }
@@ -159,9 +167,11 @@ contract MapucheSupplyChain {
     function acceptOrder(bytes32 orderId) external onlyOwner {
         Order storage order = orders[orderId];
 
-        if (order.items.length == 0) revert NoOrderWithThatIdExists();
+        if (bytes(order.id).length === 0) revert NoOrderWithThatIdExists();
 
         if (order.isActive == false) revert CanNotChangeInactiveOrders();
+
+        if (order.accepted) revert OrderAlreadyAccepted();
 
         order.accepted = true;
     }
@@ -169,12 +179,14 @@ contract MapucheSupplyChain {
     function updateShipped(bytes32 orderId) external onlyOwner {
         Order storage order = orders[orderId];
 
-        if (order.items.length == 0) revert NoOrderWithThatIdExists();
+        if (bytes(order.id).length === 0) revert NoOrderWithThatIdExists();
 
         if (order.isActive == false) revert CanNotChangeInactiveOrders();
 
         if (order.accepted == false)
             revert OrderMustBeAcceptedBeforeThisAction();
+
+        if (order.shipped) revert OrderAlreadyShipped();
 
         order.shipped = true;
     }
@@ -182,7 +194,7 @@ contract MapucheSupplyChain {
     function updateDelivered(bytes32 orderId) external onlyOwner {
         Order storage order = orders[orderId];
 
-        if (order.items.length == 0) revert NoOrderWithThatIdExists();
+        if (bytes(order.id).length === 0) revert NoOrderWithThatIdExists();
 
         if (order.isActive == false) revert CanNotChangeInactiveOrders();
 
@@ -190,6 +202,8 @@ contract MapucheSupplyChain {
             revert OrderMustBeAcceptedBeforeThisAction();
 
         if (order.shipped == false) revert OrderMustBeShippedBeforeThisAction();
+
+        if (order.delivered) revert OrderAlreadyDelivered();
 
         order.delivered = true;
         order.isActive = false;
@@ -216,33 +230,19 @@ contract MapucheSupplyChain {
     ) external view onlyOwner returns (Order memory) {
         Order memory order = orders[orderId];
 
-        if (order.items.length == 0) revert NoOrderWithThatIdExists();
+        if (bytes(order.id).length === 0) revert NoOrderWithThatIdExists();
 
         return order;
     }
 
-    function listAllActiveOrders()
-        external
-        view
-        onlyOwner
-        returns (Order[] memory)
-    {
-        Order[] memory activeOrders = new Order[](orderIds.length);
-        uint256 count = 0;
+    function listAllOrders() external view onlyOwner returns (Order[] memory) {
+        Order[] memory allOrders = new Order[](orderIds.length);
 
         for (uint256 i = 0; i < orderIds.length; i++) {
-            if (orders[orderIds[i]].isActive) {
-                activeOrders[count] = orders[orderIds[i]];
-                count++;
-            }
+            allOrders[i] = orders[orderIds[i]];
         }
 
-        Order[] memory result = new Order[](count);
-        for (uint256 i = 0; i < count; i++) {
-            result[i] = activeOrders[i];
-        }
-
-        return result;
+        return allOrders;
     }
 
     function listAllStock() external view onlyOwner returns (Item[] memory) {
