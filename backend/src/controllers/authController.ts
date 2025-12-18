@@ -1,4 +1,3 @@
-import { promisify } from 'util';
 import jwt, { JwtPayload, SignOptions } from 'jsonwebtoken';
 import { catchErrorAsync } from '../utilities/catchErrorAsync.js';
 import AppError from '../models/appError.js';
