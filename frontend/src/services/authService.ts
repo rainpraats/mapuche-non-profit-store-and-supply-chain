@@ -64,10 +64,7 @@ export class AuthService {
         },
       });
 
-      if (response.ok) {
-        const { success } = await response.json();
-        return success;
-      } else {
+      if (!response.ok) {
         console.error('Network response was not ok');
       }
     } catch (error: any) {

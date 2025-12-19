@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useOutletContext, useSearchParams } from 'react-router';
 import { OrderService } from '../services/orderService';
 import type { Order } from '../interfaces/order';
-import SingleOrder from '../components/SingleOrder';
+import OrderCard from '../components/OrderCard';
 import { QRCodeSVG } from 'qrcode.react';
 import type { User } from '../interfaces/user';
 
@@ -13,7 +13,7 @@ const ValidateShipping = () => {
   const [status, setStatus] = useState('Loading...');
 
   const handleShipOrder = async () => {
-    if (!order) return;
+    if (!order || !order.id) return;
 
     try {
       await new OrderService().shipOrder(order.id);
@@ -58,7 +58,7 @@ const ValidateShipping = () => {
 
   return (
     <>
-      <SingleOrder order={order} />
+      <OrderCard order={order} />
       {order.isShipped ? (
         <QRCodeSVG
           value={`${window.location.origin}/validate-delivery/?id=${order.id}`}

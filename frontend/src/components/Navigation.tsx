@@ -17,7 +17,7 @@ const Navigation = () => {
           <Link to="/stock">Stock</Link>
         </li>
         <li>
-          <Link to="/manageUsers">Manage Users</Link>
+          <Link to="/manage-users">Manage Users</Link>
         </li>
       </ul>
     </nav>

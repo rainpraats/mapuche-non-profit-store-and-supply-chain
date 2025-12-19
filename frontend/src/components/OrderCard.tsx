@@ -1,7 +1,6 @@
-import React from 'react';
 import type { Order } from '../interfaces/order';
 
-const SingleOrder = ({ order }: { order: Order }) => {
+const OrderCard = ({ order }: { order: Order }) => {
   const orderDate = new Date(order.shippingDueDate * 1000).toLocaleDateString();
 
   return (
@@ -24,4 +23,4 @@ const SingleOrder = ({ order }: { order: Order }) => {
   );
 };
 
-export default SingleOrder;
+export default OrderCard;

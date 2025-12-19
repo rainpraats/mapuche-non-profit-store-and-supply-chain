@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useOutletContext, useSearchParams, redirect } from 'react-router';
 import { OrderService } from '../services/orderService';
 import type { Order } from '../interfaces/order';
-import SingleOrder from '../components/SingleOrder';
+import OrderCard from '../components/OrderCard';
 import type { User } from '../interfaces/user';
 
 const ValidateDelivery = () => {
@@ -12,7 +12,7 @@ const ValidateDelivery = () => {
   const [status, setStatus] = useState('Loading...');
 
   const handleDeliverOrder = async () => {
-    if (!order) return;
+    if (!order || !order.id) return;
 
     try {
       await new OrderService().deliverOrder(order.id);
@@ -62,7 +62,7 @@ const ValidateDelivery = () => {
 
   return (
     <>
-      <SingleOrder order={order} />
+      <OrderCard order={order} />
       <p>Do you confirm that this order is correct?</p>
       {order && <button onClick={handleDeliverOrder}>Confirm</button>}
     </>

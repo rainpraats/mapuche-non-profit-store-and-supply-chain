@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { Order } from '../interfaces/order';
 import { OrderService } from '../services/orderService';
 import { QRCodeSVG } from 'qrcode.react';
-import SingleOrder from './SingleOrder';
+import OrderCard from './OrderCard';
 
 const SupplierViewOrder = ({
   order,
@@ -14,6 +14,11 @@ const SupplierViewOrder = ({
   const [status, setStatus] = useState<string>('');
 
   const handleAcceptOrder = async () => {
+    if (!order.id) {
+      setStatus('Order is malformed or missing an id');
+      return;
+    }
+
     setStatus('Loading...');
 
     try {
@@ -28,7 +33,7 @@ const SupplierViewOrder = ({
 
   return (
     <>
-      <SingleOrder order={order} />
+      <OrderCard order={order} />
       {order.isAccepted ? (
         <QRCodeSVG
           value={`${window.location.origin}/validate-shipping/?id=${order.id}`}

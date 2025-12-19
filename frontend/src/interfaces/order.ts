@@ -1,7 +1,7 @@
 import type { Item } from './Item';
 
 export interface Order {
-  id: string;
+  id?: string;
   items: Item[];
   shippingDueDate: number;
   nameOfSupplier: string;

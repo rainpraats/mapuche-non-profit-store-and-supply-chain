@@ -1,5 +1,6 @@
 import { type User } from '../models/User';
 import userModel from '../models/userModel.js';
+import bcrypt from 'bcryptjs';
 
 export default class UserRepository {
   async add(user: User) {
@@ -22,5 +23,13 @@ export default class UserRepository {
 
   async deleteById(id: string) {
     return await userModel.findByIdAndDelete(id);
+  }
+
+  async edit(id: string, updatedUser: User) {
+    if (updatedUser.password) {
+      updatedUser.password = await bcrypt.hash(updatedUser.password, 12);
+    }
+
+    return await userModel.findByIdAndUpdate(id, updatedUser, { new: true });
   }
 }
