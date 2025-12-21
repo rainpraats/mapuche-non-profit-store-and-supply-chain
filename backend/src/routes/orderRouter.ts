@@ -18,8 +18,19 @@ import {
 
 const orderRouter = express.Router();
 
-orderRouter.route('/').post(addOrder).get(getAllOrders);
-orderRouter.route('/:id').get(getOrder).delete(deleteOrder).put(editOrder);
+orderRouter
+  .route('/')
+  .post(protect, authorizeRole('admin', 'volunteer'), addOrder)
+  .get(protect, authorizeRole('admin', 'volunteer', 'supplier'), getAllOrders);
+orderRouter
+  .route('/:id')
+  .get(
+    protect,
+    authorizeRole('admin', 'volunteer', 'supplier', 'delivery'),
+    getOrder
+  )
+  .delete(protect, authorizeRole('admin', 'volunteer'), deleteOrder)
+  .put(protect, authorizeRole('admin', 'volunteer'), editOrder);
 orderRouter
   .route('/accept/:id')
   .post(protect, authorizeUserAcceptingOrder, acceptOrder);
