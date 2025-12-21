@@ -35,18 +35,6 @@ const Login = () => {
     }
   };
 
-  const createUser = async (
-    name: string,
-    role: 'admin' | 'supplier' | 'delivery'
-  ) => {
-    try {
-      const user = { name: name, role: role, password: 'bob' };
-      await new AdminService().createUser(user);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
     <article className="loginComponent">
       <form className="loginForm" onSubmit={handleSubmit}>
@@ -79,13 +67,6 @@ const Login = () => {
           Login
         </button>
       </form>
-      <button onClick={() => createUser('bob', 'admin')}>create bob</button>
-      <button onClick={() => createUser('Steve', 'supplier')}>
-        create suplier Steve
-      </button>
-      <button onClick={() => createUser('Greg', 'delivery')}>
-        create deliverer Greg
-      </button>
     </article>
   );
 };

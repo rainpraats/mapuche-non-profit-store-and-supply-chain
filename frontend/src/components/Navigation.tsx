@@ -1,6 +1,10 @@
-import { Link } from 'react-router';
+import { Link, useOutletContext } from 'react-router';
+import type { User } from '../interfaces/user';
 
 const Navigation = () => {
+  const { signedInUser } = useOutletContext<{ signedInUser: User }>();
+  const role = signedInUser.role;
+
   return (
     <nav>
       <ul>
@@ -10,15 +14,26 @@ const Navigation = () => {
         <li>
           <Link to="/checkout">Purchase</Link>
         </li>
-        <li>
-          <Link to="/orders">Orders</Link>
-        </li>
-        <li>
-          <Link to="/stock">Stock</Link>
-        </li>
-        <li>
-          <Link to="/manage-users">Manage Users</Link>
-        </li>
+        {(role === 'admin' ||
+          role === 'volunteer' ||
+          role === 'delivery' ||
+          role === 'supplier') && (
+          <>
+            <li>
+              <Link to="/orders">Orders</Link>
+            </li>
+            {(role === 'admin' || role === 'volunteer') && (
+              <>
+                <li>
+                  <Link to="/stock">Stock</Link>
+                </li>
+                <li>
+                  <Link to="/manage-users">Manage Users</Link>
+                </li>
+              </>
+            )}
+          </>
+        )}
       </ul>
     </nav>
   );

@@ -19,6 +19,8 @@ const AdminOrderCard = ({
   const [status, setStatus] = useState('');
   const [itemsToOrder, setItemsToOrder] = useState<Item[]>(order.items);
   const orderDate = new Date(order.shippingDueDate * 1000).toLocaleDateString();
+  const id = order.id || '????';
+  const shortId = `${id.slice(0, 4)}...${id.slice(-4)}`;
 
   const deleteOrder = async () => {
     if (!order.id) {
@@ -98,7 +100,7 @@ const AdminOrderCard = ({
           </li>
         ))}
       </ul>
-      <p>Id: {order.id}</p>
+      <p>Id: {shortId}</p>
       <p>Shipping Due: {orderDate}</p>
       <p>Supplier: {order.nameOfSupplier}</p>
       <p>Deliverer: {order.nameOfDeliverer}</p>
@@ -124,6 +126,7 @@ const AdminOrderCard = ({
 
   const editTemplate = (
     <div>
+      <p>Editing: {shortId}</p>
       <form onSubmit={handleAddItemToOrder}>
         <input
           name="itemDescription"

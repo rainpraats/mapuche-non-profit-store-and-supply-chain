@@ -14,6 +14,11 @@ const Checkout = () => {
     setCart(cartData);
   }, []);
 
+  const clearCart = () => {
+    new ShoppingCartService().clearCart();
+    setCart([]);
+  };
+
   return (
     <main>
       {cart.length ? (
@@ -25,6 +30,7 @@ const Checkout = () => {
               signedInUser.name
             }`}
           />
+          <button onClick={clearCart}>Remove items from cart</button>
           <ul>
             {cart.map((item, index) => (
               <li key={index}>
