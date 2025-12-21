@@ -2,11 +2,12 @@ import express from 'express';
 import {
   addOrder,
   getAllOrders,
-  // deleteOrder,
+  deleteOrder,
   getOrder,
   acceptOrder,
   shipOrder,
   deliverOrder,
+  editOrder,
 } from '../controllers/orderController.js';
 import {
   authorizeRole,
@@ -18,7 +19,7 @@ import {
 const orderRouter = express.Router();
 
 orderRouter.route('/').post(addOrder).get(getAllOrders);
-orderRouter.route('/:id').get(getOrder);
+orderRouter.route('/:id').get(getOrder).delete(deleteOrder).put(editOrder);
 orderRouter
   .route('/accept/:id')
   .post(protect, authorizeUserAcceptingOrder, acceptOrder);

@@ -1,37 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import type { Order } from '../interfaces/order';
 import { OrderService } from '../services/orderService';
-import { AdminService } from '../services/adminService';
-import type { User } from '../interfaces/user';
 import type { Item } from '../interfaces/Item';
+import type { User } from '../interfaces/user';
 
-const convertDateToTimestamp = (date: Date) => {
-  return Math.floor(date.getTime() / 1000);
-};
-
-const CreateOrder = () => {
+const CreateOrder = ({
+  fetchOrders,
+  suppliers,
+  deliverers,
+}: {
+  fetchOrders: () => void;
+  suppliers: User[];
+  deliverers: User[];
+}) => {
   const [status, setStatus] = useState<string>('');
-  const [suppliers, setSuppliers] = useState<User[]>([]);
-  const [deliverers, setDeliverers] = useState<User[]>([]);
   const [itemsToOrder, setItemsToOrder] = useState<Item[]>([]);
+  const itemFormRef = useRef<HTMLFormElement>(null);
+  const orderFormRef = useRef<HTMLFormElement>(null);
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const users = await new AdminService().getUsers();
+  const convertDateToTimestamp = (date: Date) => {
+    return Math.floor(date.getTime() / 1000);
+  };
 
-        setSuppliers(users.filter((user: User) => user.role === 'supplier'));
-        setDeliverers(users.filter((user: User) => user.role === 'delivery'));
-      } catch (error) {
-        setStatus(
-          'Something went wrong while loading available suppliers and deliverers.'
-        );
-        console.error(error);
-      }
-    };
-
-    fetchUsers();
-  }, []);
+  const removeItem = (itemIndex: number) => {
+    setItemsToOrder(itemsToOrder.filter((_, i) => i !== itemIndex));
+  };
 
   const handleAddItemToOrder = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -41,8 +34,9 @@ const CreateOrder = () => {
       itemDescription: formData.get('itemDescription') as string,
       quantity: parseInt(formData.get('quantity') as string),
     };
-    console.log(item);
+
     setItemsToOrder([...itemsToOrder, item]);
+    itemFormRef.current?.reset();
   };
 
   const handleSendNewOrder = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -56,12 +50,15 @@ const CreateOrder = () => {
       nameOfSupplier: formData.get('nameOfSupplier') as string,
       nameOfDeliverer: formData.get('nameOfDeliverer') as string,
     };
-    console.log(order);
+
     setStatus('Saving...');
     try {
       const success = await new OrderService().createOrder(order);
       if (success) {
+        fetchOrders();
         setStatus('Order created successfully.');
+        orderFormRef.current?.reset();
+        setItemsToOrder([]);
       } else {
         setStatus('Something went wrong while creating the order.');
       }
@@ -73,7 +70,7 @@ const CreateOrder = () => {
 
   return (
     <div>
-      <form onSubmit={handleAddItemToOrder}>
+      <form onSubmit={handleAddItemToOrder} ref={itemFormRef}>
         <input
           name="itemDescription"
           type="text"
@@ -93,10 +90,17 @@ const CreateOrder = () => {
         {itemsToOrder.map((item, index) => (
           <li key={index}>
             {item.itemDescription} - Quantity: {item.quantity}
+            <button
+              onClick={() => {
+                removeItem(index);
+              }}
+            >
+              Remove
+            </button>
           </li>
         ))}
       </ul>
-      <form onSubmit={handleSendNewOrder}>
+      <form onSubmit={handleSendNewOrder} ref={orderFormRef}>
         <input name="dueDate" type="date" placeholder="Due Date" required />
         <select name="nameOfSupplier" required>
           <option value="">Select Supplier</option>

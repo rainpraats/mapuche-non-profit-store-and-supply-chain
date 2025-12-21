@@ -4,7 +4,7 @@ import { OrderService } from '../services/orderService';
 import { QRCodeSVG } from 'qrcode.react';
 import OrderCard from './OrderCard';
 
-const SupplierViewOrder = ({
+const SupplierViewOrderCard = ({
   order,
   fetchOrders,
 }: {
@@ -46,4 +46,4 @@ const SupplierViewOrder = ({
   );
 };
 
-export default SupplierViewOrder;
+export default SupplierViewOrderCard;

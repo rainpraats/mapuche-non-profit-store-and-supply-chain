@@ -17,7 +17,12 @@ const AddUser = ({ fetchUsers }: { fetchUsers: () => void }) => {
     };
 
     try {
-      await new AdminService().createUser(newUser);
+      const user = await new AdminService().createUser(newUser);
+
+      if (!user) {
+        setStatus('That name is already taken.');
+        return;
+      }
       await fetchUsers();
       formRef.current?.reset();
     } catch (error) {

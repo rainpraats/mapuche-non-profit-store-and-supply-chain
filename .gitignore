@@ -1,5 +1,5 @@
 .env
-blockchain_state.json
+backend/blockchain/blockchain_state.json
 
 # Logs
 logs

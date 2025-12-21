@@ -122,7 +122,7 @@ contract MapucheSupplyChain {
 
         Order storage order = orders[orderId];
 
-        if (bytes(order.id).length === 0) revert NoOrderWithThatIdExists();
+        if (order.id == bytes32(0)) revert NoOrderWithThatIdExists();
 
         if (shippingDueDate <= block.timestamp) revert ShippingDueDateInPast();
 
@@ -155,7 +155,7 @@ contract MapucheSupplyChain {
     function deleteOrder(bytes32 orderId) external onlyOwner {
         Order storage order = orders[orderId];
 
-        if (bytes(order.id).length === 0) revert NoOrderWithThatIdExists();
+        if (order.id == bytes32(0)) revert NoOrderWithThatIdExists();
 
         if (order.accepted) revert CanNotChangeAcceptedOrders();
 
@@ -167,7 +167,7 @@ contract MapucheSupplyChain {
     function acceptOrder(bytes32 orderId) external onlyOwner {
         Order storage order = orders[orderId];
 
-        if (bytes(order.id).length === 0) revert NoOrderWithThatIdExists();
+        if (order.id == bytes32(0)) revert NoOrderWithThatIdExists();
 
         if (order.isActive == false) revert CanNotChangeInactiveOrders();
 
@@ -179,7 +179,7 @@ contract MapucheSupplyChain {
     function updateShipped(bytes32 orderId) external onlyOwner {
         Order storage order = orders[orderId];
 
-        if (bytes(order.id).length === 0) revert NoOrderWithThatIdExists();
+        if (order.id == bytes32(0)) revert NoOrderWithThatIdExists();
 
         if (order.isActive == false) revert CanNotChangeInactiveOrders();
 
@@ -194,7 +194,7 @@ contract MapucheSupplyChain {
     function updateDelivered(bytes32 orderId) external onlyOwner {
         Order storage order = orders[orderId];
 
-        if (bytes(order.id).length === 0) revert NoOrderWithThatIdExists();
+        if (order.id == bytes32(0)) revert NoOrderWithThatIdExists();
 
         if (order.isActive == false) revert CanNotChangeInactiveOrders();
 
@@ -230,7 +230,7 @@ contract MapucheSupplyChain {
     ) external view onlyOwner returns (Order memory) {
         Order memory order = orders[orderId];
 
-        if (bytes(order.id).length === 0) revert NoOrderWithThatIdExists();
+        if (order.id == bytes32(0)) revert NoOrderWithThatIdExists();
 
         return order;
     }

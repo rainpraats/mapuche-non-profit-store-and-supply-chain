@@ -16,8 +16,12 @@ export class OrderService {
         body: JSON.stringify(order),
       });
 
-      const { success } = await response.json();
-      return success;
+      if (response.ok) {
+        const { success } = await response.json();
+        return success;
+      } else {
+        console.error('Network response was not ok');
+      }
     } catch (error: any) {
       throw new Error(error);
     }
@@ -64,8 +68,12 @@ export class OrderService {
         }
       );
 
-      const { success } = await response.json();
-      return success;
+      if (response.ok) {
+        const { success } = await response.json();
+        return success;
+      } else {
+        console.error('Network response was not ok');
+      }
     } catch (error: any) {
       throw new Error(error);
     }
@@ -111,12 +119,16 @@ export class OrderService {
             authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ orderId: orderId }),
+          body: JSON.stringify({ orderId }),
         }
       );
 
-      const { success } = await response.json();
-      return success;
+      if (response.ok) {
+        const { success } = await response.json();
+        return success;
+      } else {
+        console.error('Network response was not ok');
+      }
     } catch (error: any) {
       throw new Error(error);
     }
@@ -136,12 +148,72 @@ export class OrderService {
             authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ orderId: orderId }),
+          body: JSON.stringify({ orderId }),
         }
       );
 
-      const { success } = await response.json();
-      return success;
+      if (response.ok) {
+        const { success } = await response.json();
+        return success;
+      } else {
+        console.error('Network response was not ok');
+      }
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
+
+  async deleteOrder(orderId: string) {
+    const token = localStorage.getItem('JWT');
+
+    if (!token) return;
+
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/v1/order/${orderId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ orderId }),
+        }
+      );
+
+      if (!response.ok) {
+        console.error('Network response was not ok');
+      }
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
+
+  async editOrder(updatedOrder: Order) {
+    console.log(updatedOrder);
+    const token = localStorage.getItem('JWT');
+
+    if (!token) return;
+
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/v1/order/${updatedOrder.id}`,
+        {
+          method: 'PUT',
+          headers: {
+            authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ updatedOrder }),
+        }
+      );
+
+      if (response.ok) {
+        const { success } = await response.json();
+        return success;
+      } else {
+        console.error('Network response was not ok');
+      }
     } catch (error: any) {
       throw new Error(error);
     }
