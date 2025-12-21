@@ -22,7 +22,7 @@ const Banner = ({ signedInUser }: { signedInUser: User }) => {
         className="logoutButton"
         onClick={() => {
           localStorage.clear();
-          window.location.reload();
+          window.location.href = '/';
         }}
       >
         <img src={logoutIcon} alt="Log out button" height="24px" width="24px" />

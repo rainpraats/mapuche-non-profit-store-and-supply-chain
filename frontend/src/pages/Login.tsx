@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { AdminService } from '../services/adminService';
 import { AuthService } from '../services/authService';
 
 const Login = () => {
@@ -16,11 +15,9 @@ const Login = () => {
         password,
       });
 
-      console.log(response);
-
       if (response && response.token) {
         localStorage.setItem('JWT', response.token);
-        window.location.reload();
+        window.location.href = '/';
         return;
       }
 
