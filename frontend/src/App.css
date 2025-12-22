@@ -24,6 +24,8 @@ header {
   border-radius: 2px;
 }
 
+/* LOGIN */
+
 .loginComponent {
   max-width: fit-content;
   margin: 0 auto;
@@ -48,23 +50,12 @@ header {
   margin-bottom: 2rem;
 }
 
-nav {
-  width: fit-content;
-  margin: 0 auto;
-}
-
-main {
-  background-color: #fff;
-  width: fit-content;
-  margin: 0 auto;
-}
-
 h1 {
   color: #333;
   text-align: center;
 }
 
-input[type='text'],
+.loginForm input[type='text'],
 input[type='password'] {
   padding: 10px;
   font-size: 16px;
@@ -88,12 +79,58 @@ input[type='password'] {
   cursor: pointer;
   height: 40px;
   width: 40px;
+  margin-right: 0.5rem;
 }
 
 ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
+}
+
+/* NAV */
+nav {
+  width: fit-content;
+  margin: 0 auto;
+}
+
+nav > ul > li {
+  margin: 2rem;
+}
+
+nav > ul > li > a {
+  font-weight: bold;
+}
+
+/* ORDERS */
+.itemForm,
+.orderForm {
+  display: flex;
+  flex-flow: column;
+  gap: 0.2rem;
+}
+
+.item {
+  display: flex;
+  flex-flow: row-nowrap;
+  justify-content: space-between;
+  padding: 1rem 0;
+}
+
+.orderForm {
+}
+
+/* THE REST */
+a {
+  font-size: larger;
+}
+
+main {
+  background-color: #fff;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  flex-flow: column;
 }
 /* 
 li {

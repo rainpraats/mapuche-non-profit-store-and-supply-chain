@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import type { Item } from '../interfaces/Item';
 import { ShoppingCartService } from '../services/shoppingCartService';
 import type { User } from '../interfaces/user';
-import { useOutletContext } from 'react-router';
+import { Link, useOutletContext } from 'react-router';
 
 const Checkout = () => {
   const { signedInUser } = useOutletContext<{ signedInUser: User }>();
@@ -21,6 +21,7 @@ const Checkout = () => {
 
   return (
     <main>
+      <Link to="/">&#10094; go back</Link>
       {cart.length ? (
         <>
           <QRCodeSVG

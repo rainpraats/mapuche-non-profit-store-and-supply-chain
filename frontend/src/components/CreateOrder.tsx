@@ -70,7 +70,11 @@ const CreateOrder = ({
 
   return (
     <div>
-      <form onSubmit={handleAddItemToOrder} ref={itemFormRef}>
+      <form
+        onSubmit={handleAddItemToOrder}
+        ref={itemFormRef}
+        className="itemForm"
+      >
         <input
           name="itemDescription"
           type="text"
@@ -88,7 +92,7 @@ const CreateOrder = ({
       </form>
       <ul>
         {itemsToOrder.map((item, index) => (
-          <li key={index}>
+          <li key={index} className="item">
             {item.itemDescription} - Quantity: {item.quantity}
             <button
               onClick={() => {
@@ -100,7 +104,11 @@ const CreateOrder = ({
           </li>
         ))}
       </ul>
-      <form onSubmit={handleSendNewOrder} ref={orderFormRef}>
+      <form
+        onSubmit={handleSendNewOrder}
+        ref={orderFormRef}
+        className="orderForm"
+      >
         <input name="dueDate" type="date" placeholder="Due Date" required />
         <select name="nameOfSupplier" required>
           <option value="">Select Supplier</option>
