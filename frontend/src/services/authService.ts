@@ -1,9 +1,10 @@
 import type { User } from '../interfaces/user';
+import API_BASE_URL from '../config/api';
 
 export class AuthService {
   async getLoginToken({ name, password }: { name: string; password: string }) {
     try {
-      const response = await fetch('http://localhost:3000/api/v1/auth', {
+      const response = await fetch(`${API_BASE_URL}/auth`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, password }),
@@ -33,7 +34,7 @@ export class AuthService {
     if (!token) return;
 
     try {
-      const response = await fetch('http://localhost:3000/api/v1/auth', {
+      const response = await fetch(`${API_BASE_URL}/auth`, {
         headers: {
           authorization: `Bearer ${token}`,
         },
@@ -56,7 +57,7 @@ export class AuthService {
     if (!token) return;
 
     try {
-      const response = await fetch('http://localhost:3000/api/v1/auth', {
+      const response = await fetch(`${API_BASE_URL}/auth`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

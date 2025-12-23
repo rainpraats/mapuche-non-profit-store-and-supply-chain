@@ -46,6 +46,15 @@ const Orders = () => {
     fetchOrders();
   }, []);
 
+  if (!orders) {
+    return (
+      <main>
+        <p>Could not load orders. Please try again later.</p>
+        <Link to="/">&#10094; go back</Link>
+      </main>
+    );
+  }
+
   return (
     <main>
       <Link to="/">&#10094; go back</Link>

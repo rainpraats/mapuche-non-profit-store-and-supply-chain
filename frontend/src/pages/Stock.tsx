@@ -22,6 +22,15 @@ const Stock = () => {
     fetchStock();
   }, []);
 
+  if (!stock) {
+    return (
+      <main>
+        <p>Could not get stock information. Please try again later.</p>
+        <Link to="/">&#10094; go back</Link>
+      </main>
+    );
+  }
+
   return (
     <main>
       <Link to="/">&#10094; go back</Link>

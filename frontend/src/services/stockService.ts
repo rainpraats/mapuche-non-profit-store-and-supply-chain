@@ -1,3 +1,5 @@
+import API_BASE_URL from '../config/api';
+
 export class StockService {
   async listStock() {
     const token = localStorage.getItem('JWT');
@@ -5,7 +7,7 @@ export class StockService {
     if (!token) return;
 
     try {
-      const response = await fetch(`http://localhost:3000/api/v1/stock/`, {
+      const response = await fetch(`${API_BASE_URL}/stock/`, {
         headers: {
           authorization: `Bearer ${token}`,
         },
