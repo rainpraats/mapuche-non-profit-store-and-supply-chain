@@ -1,35 +1,29 @@
-import { useEffect, useState } from 'react';
-import { StockService } from '../services/stockService';
-import type { Item } from '../interfaces/Item';
-import { Link } from 'react-router';
+import { useEffect, useState } from "react";
+import { StockService } from "../services/stockService";
+import type { Item } from "../interfaces/Item";
+import { Link } from "react-router";
 
 const Stock = () => {
   const [stock, setStock] = useState<Item[]>([]);
-  const [status, setStatus] = useState('Loading Stock');
+  const [status, setStatus] = useState("Loading Stock");
 
   useEffect(() => {
     const fetchStock = async () => {
       try {
         const stockData = await new StockService().listStock();
-        setStatus('');
+        setStatus("");
         setStock(stockData);
+        if (stockData.length === 0) {
+          setStatus("Stock is empty.");
+        }
       } catch (error) {
         console.error(error);
-        setStatus('Could not load stock. Try again later.');
+        setStatus("Could not load stock. Try again later.");
       }
     };
 
     fetchStock();
   }, []);
-
-  if (!stock) {
-    return (
-      <main>
-        <p>Could not get stock information. Please try again later.</p>
-        <Link to="/">&#10094; go back</Link>
-      </main>
-    );
-  }
 
   return (
     <main>
