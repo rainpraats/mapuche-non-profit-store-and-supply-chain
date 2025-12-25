@@ -1,4 +1,4 @@
-.env
+.env*
 backend/blockchain/blockchain_state.json
 
 # Logs
