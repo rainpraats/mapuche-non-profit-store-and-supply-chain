@@ -1,5 +1,6 @@
 import { type Credentials } from '../interfaces/credentials';
 import type { User } from '../interfaces/user';
+import API_BASE_URL from '../config/api';
 
 export class AdminService {
   async createUser({ name, role, password }: Credentials) {
@@ -8,7 +9,7 @@ export class AdminService {
     if (!token) return;
 
     try {
-      const response = await fetch('http://localhost:3000/api/v1/admin', {
+      const response = await fetch(`${API_BASE_URL}/admin`, {
         method: 'POST',
         headers: {
           authorization: `Bearer ${token}`,
@@ -31,7 +32,7 @@ export class AdminService {
     if (!token) return;
 
     try {
-      const response = await fetch('http://localhost:3000/api/v1/admin', {
+      const response = await fetch(`${API_BASE_URL}/admin`, {
         method: 'GET',
         headers: {
           authorization: `Bearer ${token}`,
@@ -52,7 +53,7 @@ export class AdminService {
     if (!token) return;
 
     try {
-      const response = await fetch('http://localhost:3000/api/v1/admin', {
+      const response = await fetch(`${API_BASE_URL}/admin`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -75,7 +76,7 @@ export class AdminService {
     if (!token) return;
 
     try {
-      const response = await fetch('http://localhost:3000/api/v1/admin', {
+      const response = await fetch(`${API_BASE_URL}/admin`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

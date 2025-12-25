@@ -1,4 +1,5 @@
 import type { Item } from '../interfaces/Item';
+import API_BASE_URL from '../config/api';
 
 export class PurchaseService {
   async purchase(username: string, items: Item[]) {
@@ -7,7 +8,7 @@ export class PurchaseService {
     if (!token) return;
 
     try {
-      const response = await fetch('http://localhost:3000/api/v1/purchase', {
+      const response = await fetch(`${API_BASE_URL}/purchase`, {
         method: 'POST',
         headers: {
           authorization: `Bearer ${token}`,
