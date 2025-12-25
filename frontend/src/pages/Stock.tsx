@@ -13,6 +13,9 @@ const Stock = () => {
         const stockData = await new StockService().listStock();
         setStatus('');
         setStock(stockData);
+        if (stockData.length === 0) {
+          setStatus('Stock is empty.');
+        }
       } catch (error) {
         console.error(error);
         setStatus('Could not load stock. Try again later.');
@@ -24,7 +27,7 @@ const Stock = () => {
 
   return (
     <main>
-      <Link to="/">&#10094; go back</Link>
+      <Link to='/'>&#10094; go back</Link>
       {status && <p>{status}</p>}
       <ul>
         {stock.map((item, index) => (
