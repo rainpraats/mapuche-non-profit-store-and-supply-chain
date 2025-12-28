@@ -16,7 +16,9 @@ const Banner = ({ signedInUser }: { signedInUser: User }) => {
           />
         </Link>
       </span>
-      <p className="displayUsername">Signed in as: {signedInUser.name}</p>
+      <p className="displayUsername">
+        Signed in as: <span>{signedInUser.name}</span>
+      </p>
       <button
         title="log out"
         className="logoutButton"

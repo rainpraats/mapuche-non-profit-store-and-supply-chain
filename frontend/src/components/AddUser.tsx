@@ -32,7 +32,8 @@ const AddUser = ({ fetchUsers }: { fetchUsers: () => void }) => {
   };
 
   return (
-    <form onSubmit={createNewUser} ref={formRef}>
+    <form className="addUserForm" onSubmit={createNewUser} ref={formRef}>
+      <h2>Add users:</h2>
       <div>
         <label htmlFor="name">Name:</label>
         <input type="text" name="name" required />
