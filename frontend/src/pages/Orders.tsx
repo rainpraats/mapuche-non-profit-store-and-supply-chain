@@ -36,7 +36,7 @@ const Orders = () => {
   const fetchOrders = async () => {
     try {
       const orders = await new OrderService().getAllOrders();
-      setOrders(orders);
+      setOrders(orders.reverse());
     } catch (error) {
       console.error('Error fetching orders:', error);
     }
@@ -65,8 +65,8 @@ const Orders = () => {
             suppliers={suppliers}
             deliverers={deliverers}
           />
-          {status && <p>{status}</p>}
-          <ul>
+          {status ? <p>{status}</p> : <h2>Orderlist:</h2>}
+          <ul className="adminOrderList">
             {orders.map((order) => (
               <li key={order.id}>
                 <AdminOrderCard
@@ -87,7 +87,7 @@ const Orders = () => {
               (order) => order.isActive === true && order.isShipped === false
             )
             .map((order) => (
-              <li key={order.id}>
+              <li className="supplierOrderCard" key={order.id}>
                 <SupplierViewOrderCard
                   order={order}
                   fetchOrders={fetchOrders}
