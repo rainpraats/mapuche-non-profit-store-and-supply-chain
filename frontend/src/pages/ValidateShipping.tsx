@@ -54,10 +54,15 @@ const ValidateShipping = () => {
     })();
   }, [params]);
 
-  if (!order) return <p>{status}</p>;
+  if (!order)
+    return (
+      <main>
+        <p>{status}</p>
+      </main>
+    );
 
   return (
-    <>
+    <main>
       <OrderCard order={order} />
       {order.isShipped ? (
         <QRCodeSVG
@@ -70,7 +75,7 @@ const ValidateShipping = () => {
           {order && <button onClick={handleShipOrder}>Confirm</button>}
         </>
       )}
-    </>
+    </main>
   );
 };
 
