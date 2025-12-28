@@ -14,10 +14,7 @@ const Navigation = () => {
         <li>
           <Link to="/checkout">Purchase</Link>
         </li>
-        {(role === 'admin' ||
-          role === 'volunteer' ||
-          role === 'delivery' ||
-          role === 'supplier') && (
+        {(role === 'admin' || role === 'volunteer' || role === 'supplier') && (
           <>
             <li>
               <Link to="/orders">Orders</Link>
