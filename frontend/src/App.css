@@ -120,7 +120,41 @@ nav > ul > li > a {
 .orderForm {
 }
 
+.adminOrderCard {
+  margin-bottom: 4rem;
+  border: 2px solid;
+  border-radius: 8px;
+  padding: 2rem;
+  display: flex;
+  flex-flow: column;
+}
+
+.adminOrderCard > ul {
+  list-style: none;
+  padding: 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.adminOrderCard > ul > li {
+  padding: 12px 20px;
+  border-bottom: 1px solid #eee;
+  background-color: #fff;
+}
+
+.adminOrderCard button {
+  margin: 0.5rem 0;
+}
+
+/* MANAGE USERS */
+
 /* THE REST */
+.qrcode {
+  padding: 20px;
+  margin: 0 auto;
+}
+
 a {
   font-size: larger;
 }
