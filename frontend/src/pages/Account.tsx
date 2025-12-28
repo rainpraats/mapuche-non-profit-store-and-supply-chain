@@ -12,8 +12,10 @@ const Account = () => {
     setErrorMessage('');
     try {
       await new AuthService().deleteCurrentUser();
+      localStorage.clear();
+      window.location.href = '/';
     } catch (error) {
-      setErrorMessage('<Failed to delete account. Try again later.');
+      setErrorMessage('Failed to delete account. Try again later.');
       console.error(error);
     }
   };
