@@ -36,6 +36,7 @@ const SupplierViewOrderCard = ({
       <OrderCard order={order} />
       {order.isAccepted ? (
         <QRCodeSVG
+          className="qrcode"
           value={`${window.location.origin}/validate-shipping/?id=${order.id}`}
         />
       ) : (

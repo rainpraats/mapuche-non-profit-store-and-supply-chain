@@ -61,6 +61,7 @@ const ValidateShipping = () => {
       <OrderCard order={order} />
       {order.isShipped ? (
         <QRCodeSVG
+          className="qrcode"
           value={`${window.location.origin}/validate-delivery/?id=${order.id}`}
         />
       ) : (

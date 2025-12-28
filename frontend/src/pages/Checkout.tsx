@@ -25,6 +25,7 @@ const Checkout = () => {
       {cart.length ? (
         <>
           <QRCodeSVG
+            className="qrcode"
             value={`${
               window.location.origin
             }/validate-purchase/?cart=${JSON.stringify(cart)}&user=${
@@ -32,11 +33,12 @@ const Checkout = () => {
             }`}
           />
           <button onClick={clearCart}>Remove items from cart</button>
+          <p>Items in cart:</p>
           <ul>
             {cart.map((item, index) => (
               <li key={index}>
                 <p>
-                  Item: {item.itemDescription} - Quantity: {item.quantity}
+                  {item.itemDescription} - Quantity: {item.quantity}
                 </p>
               </li>
             ))}

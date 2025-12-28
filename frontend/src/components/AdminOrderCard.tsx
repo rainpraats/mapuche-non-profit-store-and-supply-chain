@@ -91,7 +91,8 @@ const AdminOrderCard = ({
   };
 
   const viewTemplate = (
-    <>
+    <div className="adminOrderCard">
+      <p>Order: {shortId}</p>
       <ul>
         {order.items.map((item, index) => (
           <li key={index}>
@@ -100,7 +101,6 @@ const AdminOrderCard = ({
           </li>
         ))}
       </ul>
-      <p>Id: {shortId}</p>
       <p>Shipping Due: {orderDate}</p>
       <p>Supplier: {order.nameOfSupplier}</p>
       <p>Deliverer: {order.nameOfDeliverer}</p>
@@ -121,13 +121,13 @@ const AdminOrderCard = ({
           {status && <p>{status}</p>}
         </>
       )}
-    </>
+    </div>
   );
 
   const editTemplate = (
-    <div>
+    <div className="adminOrderCard">
       <p>Editing: {shortId}</p>
-      <form onSubmit={handleAddItemToOrder}>
+      <form className="itemForm" onSubmit={handleAddItemToOrder}>
         <input
           name="itemDescription"
           type="text"
@@ -157,7 +157,7 @@ const AdminOrderCard = ({
           </li>
         ))}
       </ul>
-      <form onSubmit={handleSendEditedOrder}>
+      <form className="orderForm" onSubmit={handleSendEditedOrder}>
         <input name="dueDate" type="date" placeholder="Due Date" required />
         <select name="nameOfSupplier" required>
           <option value="">Select Supplier</option>
