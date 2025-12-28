@@ -70,6 +70,7 @@ const CreateOrder = ({
 
   return (
     <div>
+      <h2>Create New Order:</h2>
       <form
         onSubmit={handleAddItemToOrder}
         ref={itemFormRef}
