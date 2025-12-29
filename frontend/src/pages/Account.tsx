@@ -10,13 +10,12 @@ const Account = () => {
 
   const deleteThisAccount = async () => {
     setErrorMessage('');
-    try {
-      await new AuthService().deleteCurrentUser();
+    const accountWasDeleted = await new AuthService().deleteCurrentUser();
+    if (accountWasDeleted) {
       localStorage.clear();
       window.location.href = '/';
-    } catch (error) {
+    } else {
       setErrorMessage('Failed to delete account. Try again later.');
-      console.error(error);
     }
   };
   return (

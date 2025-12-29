@@ -10,18 +10,12 @@ export class AuthService {
         body: JSON.stringify({ name, password }),
       });
 
-      if (response.ok) {
-        const result = await response.json();
-        console.log(result);
-        if (result.statusCode === 200) {
-          return { token: result.data.token };
-        }
+      const result = await response.json();
 
-        if (result.statusCode === 401) {
-          return { message: 'Incorrect name or password.' };
-        }
+      if (response.ok) {
+        return { statusCode: result.statusCode, token: result.data.token };
       } else {
-        console.error('Network response was not ok');
+        return { statusCode: result.statusCode };
       }
     } catch (error: any) {
       throw new Error(error);
@@ -65,9 +59,7 @@ export class AuthService {
         },
       });
 
-      if (!response.ok) {
-        console.error('Network response was not ok');
-      }
+      return response.ok;
     } catch (error: any) {
       throw new Error(error);
     }

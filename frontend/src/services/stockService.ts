@@ -16,10 +16,9 @@ export class StockService {
       if (response.ok) {
         const { data } = await response.json();
         return data.stock;
-      } else {
-        console.error('Network response was not ok');
       }
     } catch (error: any) {
+      console.error('Network response was not ok');
       throw new Error(error);
     }
   }

@@ -9,17 +9,20 @@ const Stock = () => {
 
   useEffect(() => {
     const fetchStock = async () => {
-      try {
-        const stockData = await new StockService().listStock();
-        setStatus('');
-        setStock(stockData);
-        if (stockData.length === 0) {
-          setStatus('Stock is empty.');
-        }
-      } catch (error) {
-        console.error(error);
+      const stockData = await new StockService().listStock();
+      setStatus('');
+
+      if (!stockData) {
         setStatus('Could not load stock. Try again later.');
+        return;
       }
+
+      if (stockData && stockData.length === 0) {
+        setStatus('Stock is empty.');
+        return;
+      }
+
+      setStock(stockData);
     };
 
     fetchStock();
@@ -27,7 +30,7 @@ const Stock = () => {
 
   return (
     <main>
-      <Link to='/'>&#10094; go back</Link>
+      <Link to="/">&#10094; go back</Link>
       {status && <p>{status}</p>}
       <ul>
         {stock.map((item, index) => (

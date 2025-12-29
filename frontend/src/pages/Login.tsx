@@ -10,19 +10,19 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await new AuthService().getLoginToken({
+      const { statusCode, token } = await new AuthService().getLoginToken({
         name,
         password,
       });
 
-      if (response && response.token) {
-        localStorage.setItem('JWT', response.token);
+      if (token) {
+        localStorage.setItem('JWT', token);
         window.location.href = '/';
         return;
       }
 
-      if (response && response.message) {
-        setLoginFailedMessage(response.message);
+      if (statusCode === 401) {
+        setLoginFailedMessage('Incorrect credentials. Please try again.');
         return;
       }
 

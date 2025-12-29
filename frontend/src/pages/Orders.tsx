@@ -17,16 +17,13 @@ const Orders = () => {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      try {
-        const users = await new AdminService().getUsers();
+      const users = await new AdminService().getUsers();
 
+      if (users) {
         setSuppliers(users.filter((user: User) => user.role === 'supplier'));
         setDeliverers(users.filter((user: User) => user.role === 'delivery'));
-      } catch (error) {
-        setStatus(
-          'Something went wrong while loading available suppliers and deliverers.'
-        );
-        console.error(error);
+      } else {
+        setStatus('Could not load orders. Please try again later.');
       }
     };
 
@@ -36,7 +33,12 @@ const Orders = () => {
   const fetchOrders = async () => {
     try {
       const orders = await new OrderService().getAllOrders();
-      setOrders(orders.reverse());
+
+      if (orders) {
+        setOrders(orders.reverse());
+      } else {
+        setStatus('Could not load orders. Please try again later.');
+      }
     } catch (error) {
       console.error('Error fetching orders:', error);
     }
@@ -46,26 +48,18 @@ const Orders = () => {
     fetchOrders();
   }, []);
 
-  if (!orders) {
-    return (
-      <main>
-        <p>Could not load orders. Please try again later.</p>
-        <Link to="/">&#10094; go back</Link>
-      </main>
-    );
-  }
-
   return (
     <main>
       <Link to="/">&#10094; go back</Link>
-      {signedInUser.role === 'admin' && (
+      {status && <p>{status}</p>}
+      {signedInUser.role === 'admin' && !status && (
         <>
           <CreateOrder
             fetchOrders={fetchOrders}
             suppliers={suppliers}
             deliverers={deliverers}
           />
-          {status ? <p>{status}</p> : <h2>Orderlist:</h2>}
+          <h2>Orderlist:</h2>
           <ul className="adminOrderList">
             {orders.map((order) => (
               <li key={order.id}>
