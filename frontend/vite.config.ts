@@ -10,10 +10,6 @@ export default defineConfig({
     proxy: {
       '/api': { target: 'http://localhost:3000', changeOrigin: true },
     },
-    hmr: {
-      host: process.env.VITE_HMR_HOST,
-      clientPort: 5173,
-    },
   },
   preview: { host: true, port: 4173 },
 });
