@@ -67,6 +67,10 @@ Stock levels are updated automatically by deliveries and sales, removing the nee
 
 Editing and deleteing users can be done by finding the user in the list of users and pressing the edit or delete buttons next to their account.
 
+### Editing Members
+
+While editing you have the option to assign a user a new password. If no password is entered then the original password will not be changed.
+
 ---
 
 ## 6. Making a Sale (Shopping Cart)
