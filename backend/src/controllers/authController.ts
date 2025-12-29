@@ -1,10 +1,9 @@
-import jwt, { JwtPayload, SignOptions } from 'jsonwebtoken';
+import { createToken, verifyToken } from '../utilities/authUtilities.js';
 import { catchErrorAsync } from '../utilities/catchErrorAsync.js';
 import AppError from '../models/appError.js';
 import UserRepository from '../repositories/userRepository.js';
 import { userRoles } from '../models/userRoles';
 import { Response, NextFunction } from 'express';
-import { JWT_EXPIRES, JWT_SECRET } from '../envVariables.js';
 import { extractJWTFromHeader } from '../utilities/extractJWTfromHeader.js';
 import { contract } from '../smartContractClient.js';
 
@@ -95,29 +94,6 @@ export const authorizeUserRecievingShipment = catchErrorAsync(
     next();
   }
 );
-
-const createToken = (userId: string): string => {
-  return jwt.sign({ id: userId }, JWT_SECRET, {
-    expiresIn: JWT_EXPIRES,
-  } as SignOptions);
-};
-
-const verifyToken = async (
-  token: string
-): Promise<JwtPayload & { id: string }> => {
-  return new Promise((resolve, reject) => {
-    jwt.verify(token, JWT_SECRET, (err, decoded) => {
-      if (err) {
-        console.log(err);
-        return reject(err);
-      }
-      if (!decoded || typeof decoded === 'string') {
-        return reject(new Error('Invalid token'));
-      }
-      resolve(decoded as JwtPayload & { id: string });
-    });
-  });
-};
 
 export const getCurrentUser = catchErrorAsync(async (req, res, next) => {
   const token = extractJWTFromHeader(req);
