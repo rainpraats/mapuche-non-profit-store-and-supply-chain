@@ -5,7 +5,8 @@
   "scripts": {
     "test": "vitest",
     "dev": "nodemon --exec \"tsc && node dist/server.js\" --watch src --ext ts",
-    "chain": "anvil --base-fee 0 --gas-price 0 --state ./blockchain/blockchain_state.json"
+    "chain": "anvil --base-fee 0 --gas-price 0 --state ./blockchain/blockchain_state.json",
+    "create-admin": "node dist/createAdmin.js"
   },
   "author": "Rain Prääts",
   "license": "MIT",
