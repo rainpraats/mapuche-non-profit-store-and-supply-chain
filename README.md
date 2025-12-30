@@ -45,6 +45,8 @@ forge script script/MapucheSupplyChain.s.sol --rpc-url http://127.0.0.1:8545 --b
 7. Copy the contract address and save it in your .env
 
 8. Run the create admin script
+   This will create a user called bob with admin privliges. This allows you to sign in to the app for the first time, enter the name and password bob when using the app.
+   Your first time running the app you should create a new admin user and set your own password, then delete the default admin account bob.
 
 ```bash
 npm run create-admin
