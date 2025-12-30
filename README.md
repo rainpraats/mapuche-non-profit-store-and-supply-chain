@@ -17,8 +17,6 @@ git clone https://github.com/rainpraats/mapuche-non-profit-store-and-supply-chai
 cd mapuche-non-profit-store-and-supply-chain
 ```
 
-### navigate to backend
-
 2. Navigate to backend and Install dependencies
 
 ```bash
@@ -29,7 +27,7 @@ npm install
 3. Deploy the blockchain
 
 ```bash
-MNEMONIC=$(cast wallet new-mnemonic | tail -n 1)
+MNEMONIC=$(cast wallet new-mnemonic | sed -n '/Phrase:/,+1p' | tail -n 1)
 anvil --base-fee 0 --gas-price 0 --mnemonic "$MNEMONIC" --state ./blockchain/blockchain_state.json
 ```
 
@@ -159,8 +157,7 @@ The app is now available to devices on your local network.
 └──────────────────────────────────────────────────────────────────────────────┘
 ```
 
-                        KEY DATA FLOWS
-                        ─────────────
+### KEY DATA FLOWS
 
 1. SUPPLY CHAIN (Supplier → Delivery → Store):
    Supplier Accepts
