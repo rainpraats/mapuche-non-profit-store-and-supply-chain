@@ -33,7 +33,7 @@ const Stock = () => {
       <Link to="/">&#10094; go back</Link>
       {status && <p>{status}</p>}
       <ul>
-        {stock.map((item, index) => (
+        {stock.filter(item => item.quantity > 0).map((item, index) => (
           <li key={index}>
             <p>
               Item: {item.itemDescription} - Quantity: {item.quantity}
