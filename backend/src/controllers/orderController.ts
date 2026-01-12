@@ -79,7 +79,6 @@ export const shipOrder = catchErrorAsync(async (req, res, next) => {
 
 export const deliverOrder = catchErrorAsync(async (req, res, next) => {
   const { orderId } = req.body;
-  console.log(orderId);
 
   const tx = await contract.updateDelivered(orderId);
   const receipt = await tx.wait();

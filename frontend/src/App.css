@@ -134,7 +134,7 @@ nav > ul > li > a {
 
 .item {
   display: flex;
-  flex-flow: row-nowrap;
+  flex-flow: column;
   justify-content: space-between;
   padding: 1rem 0;
 }

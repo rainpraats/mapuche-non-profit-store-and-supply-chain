@@ -25,7 +25,7 @@ export const router = createBrowserRouter([
       { path: '/manage-users', element: <ManageUsers /> },
       { path: '/validate-shipping', element: <ValidateShipping /> },
       { path: '/validate-delivery', element: <ValidateDelivery /> },
-      { path: 'validate-purchase', element: <ValidatePuchase /> },
+      { path: '/validate-purchase', element: <ValidatePuchase /> },
       { path: '/purchase', element: <AddToCart /> },
     ],
   },

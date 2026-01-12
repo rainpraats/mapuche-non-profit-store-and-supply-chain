@@ -80,9 +80,6 @@ export const authorizeUserRecievingShipment = catchErrorAsync(
     const { orderId } = req.body;
     const { deliveryId } = await getIdsOfSupplierAndDelivererFromOrder(orderId);
 
-    console.log(req.user._id.toString());
-    console.log(deliveryId);
-
     if (req.user._id.toString() !== deliveryId) {
       return next(
         new AppError(
