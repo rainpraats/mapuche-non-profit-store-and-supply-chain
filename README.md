@@ -27,6 +27,7 @@ npm install
 3. Deploy the blockchain
 
 ```bash
+cd blockchain
 MNEMONIC=$(cast wallet new-mnemonic | sed -n '/Phrase:/,+1p' | tail -n 1)
 anvil --base-fee 0 --gas-price 0 --mnemonic "$MNEMONIC" --state ./blockchain/blockchain_state.json
 ```
@@ -38,7 +39,7 @@ anvil --base-fee 0 --gas-price 0 --mnemonic "$MNEMONIC" --state ./blockchain/blo
 6.  In a new termnal
 
 ```bash
-cd backend
+cd backend/blockchain
 forge script script/MapucheSupplyChain.s.sol --rpc-url http://127.0.0.1:8545 --broadcast
 ```
 
