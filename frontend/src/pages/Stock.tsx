@@ -30,16 +30,20 @@ const Stock = () => {
 
   return (
     <main>
-      <Link to="/">&#10094; go back</Link>
+      <Link to='/' className='go-back-to-previous-page'>
+        &#10094; Go back to previous page
+      </Link>
       {status && <p>{status}</p>}
       <ul>
-        {stock.filter(item => item.quantity > 0).map((item, index) => (
-          <li key={index}>
-            <p>
-              Item: {item.itemDescription} - Quantity: {item.quantity}
-            </p>
-          </li>
-        ))}
+        {stock
+          .filter((item) => item.quantity > 0)
+          .map((item, index) => (
+            <li key={index}>
+              <p>
+                Item: {item.itemDescription} - Quantity: {item.quantity}
+              </p>
+            </li>
+          ))}
       </ul>
     </main>
   );

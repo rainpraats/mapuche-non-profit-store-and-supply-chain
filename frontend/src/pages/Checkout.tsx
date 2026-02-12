@@ -21,11 +21,13 @@ const Checkout = () => {
 
   return (
     <main>
-      <Link to="/">&#10094; go back</Link>
+      <Link to='/' className='go-back-to-previous-page'>
+        &#10094; Go back to previous page
+      </Link>
       {cart.length ? (
         <>
           <QRCodeSVG
-            className="qrcode"
+            className='qrcode'
             value={`${
               window.location.origin
             }/validate-purchase/?cart=${JSON.stringify(cart)}&user=${

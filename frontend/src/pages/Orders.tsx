@@ -50,7 +50,9 @@ const Orders = () => {
 
   return (
     <main>
-      <Link to="/">&#10094; go back</Link>
+      <Link to='/' className='go-back-to-previous-page'>
+        &#10094; Go back to previous page
+      </Link>
       {status && <p>{status}</p>}
       {signedInUser.role === 'admin' && !status && (
         <>
@@ -60,7 +62,7 @@ const Orders = () => {
             deliverers={deliverers}
           />
           <h2>Orderlist:</h2>
-          <ul className="adminOrderList">
+          <ul className='adminOrderList'>
             {orders.map((order) => (
               <li key={order.id}>
                 <AdminOrderCard
@@ -78,10 +80,10 @@ const Orders = () => {
         <ul>
           {orders
             .filter(
-              (order) => order.isActive === true && order.isShipped === false
+              (order) => order.isActive === true && order.isShipped === false,
             )
             .map((order) => (
-              <li className="supplierOrderCard" key={order.id}>
+              <li className='supplierOrderCard' key={order.id}>
                 <SupplierViewOrderCard
                   order={order}
                   fetchOrders={fetchOrders}

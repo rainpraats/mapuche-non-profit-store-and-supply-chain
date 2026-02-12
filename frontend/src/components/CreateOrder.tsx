@@ -74,27 +74,29 @@ const CreateOrder = ({
       <form
         onSubmit={handleAddItemToOrder}
         ref={itemFormRef}
-        className="itemForm"
+        className='itemForm'
       >
         <input
-          name="itemDescription"
-          type="text"
-          placeholder="Item Description"
+          name='itemDescription'
+          type='text'
+          placeholder='Item Description'
           required
         />
         <input
-          name="quantity"
-          type="number"
-          placeholder="Quantity"
-          min="1"
+          name='quantity'
+          type='number'
+          placeholder='Quantity'
+          min='1'
           required
         />
-        <button type="submit">Add item</button>
+        <button type='submit'>Add item</button>
       </form>
       <ul>
         {itemsToOrder.map((item, index) => (
-          <li key={index} className="item">
-            {item.itemDescription} - Quantity: {item.quantity}
+          <li key={index} className='item'>
+            <p className='createOrderItemString'>
+              {item.itemDescription} - Quantity: {item.quantity}
+            </p>
             <button
               onClick={() => {
                 removeItem(index);
@@ -108,26 +110,26 @@ const CreateOrder = ({
       <form
         onSubmit={handleSendNewOrder}
         ref={orderFormRef}
-        className="orderForm"
+        className='orderForm'
       >
-        <input name="dueDate" type="date" placeholder="Due Date" required />
-        <select name="nameOfSupplier" required>
-          <option value="">Select Supplier</option>
+        <input name='dueDate' type='date' placeholder='Due Date' required />
+        <select name='nameOfSupplier' required>
+          <option value=''>Select Supplier</option>
           {suppliers.map((supplier, index) => (
             <option key={index} value={supplier.name}>
               {supplier.name}
             </option>
           ))}
         </select>
-        <select name="nameOfDeliverer" required>
-          <option value="">Select Delivery</option>
+        <select name='nameOfDeliverer' required>
+          <option value=''>Select Delivery</option>
           {deliverers.map((deliverer, index) => (
             <option key={index} value={deliverer.name}>
               {deliverer.name}
             </option>
           ))}
         </select>
-        <button type="submit">Create Order</button>
+        <button type='submit'>Create Order</button>
         <p>{status}</p>
       </form>
     </div>

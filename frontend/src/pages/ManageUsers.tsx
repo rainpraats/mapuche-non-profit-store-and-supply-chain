@@ -27,7 +27,9 @@ const ManageUsers = () => {
 
   return (
     <main>
-      <Link to="/">&#10094; go back</Link>
+      <Link to='/' className='go-back-to-previous-page'>
+        &#10094; Go back to previous page
+      </Link>
       <AddUser fetchUsers={fetchUsers} />
       {status && <p>{status}</p>}
       <ul>

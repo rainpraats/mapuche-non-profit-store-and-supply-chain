@@ -20,7 +20,9 @@ const Account = () => {
   };
   return (
     <main>
-      <Link to="/">&#10094; go back</Link>
+      <Link to='/' className='go-back-to-previous-page'>
+        &#10094; Go back to previous page
+      </Link>
       <p>Name: {signedInUser.name}</p>
       <p>Member since: {formatedDate.toString()}</p>
       <button
